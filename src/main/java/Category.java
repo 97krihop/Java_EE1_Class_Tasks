@@ -1,9 +1,8 @@
-import org.hibernate.validator.constraints.UniqueElements;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Category {
@@ -12,11 +11,11 @@ public class Category {
     @GeneratedValue
     private Integer id;
 
-    @OneToMany(mappedBy ="parent",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
     private final List <SubCategory> subCategories;
 
     @NotNull
-    @Column(unique=true)
+    @Column(unique = true)
     @Size(max = 128)
     private String name;
 
