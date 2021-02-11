@@ -1,3 +1,5 @@
+package entity;
+
 import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;

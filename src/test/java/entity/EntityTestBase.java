@@ -1,3 +1,7 @@
+package entity;
+
+import entity.Quiz;
+import entity.SubCategory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
