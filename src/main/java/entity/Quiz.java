@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
 public class Quiz {
     @Id
     @GeneratedValue
-    private Integer id;
+    private Long id;
 
     @NotNull
 
@@ -99,7 +99,7 @@ public class Quiz {
         this.subCategory = subCategory;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 }

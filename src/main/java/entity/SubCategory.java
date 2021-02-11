@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
 public class SubCategory {
     @Id
     @GeneratedValue
-    private Integer id;
+    private Long id;
 
     @NotNull
     @ManyToOne
@@ -28,7 +28,7 @@ public class SubCategory {
         this.name = name;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 

@@ -11,7 +11,7 @@ public class Category {
 
     @Id
     @GeneratedValue
-    private Integer id;
+    private Long id;
 
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
     private final List <SubCategory> subCategories;
@@ -25,7 +25,7 @@ public class Category {
         subCategories = new ArrayList <SubCategory>();
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
