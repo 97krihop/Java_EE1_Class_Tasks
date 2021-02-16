@@ -1,7 +1,7 @@
-package ejb;
+package org.EE.ejb;
 
-import entity.Category;
-import entity.SubCategory;
+import org.EE.entity.Category;
+import org.EE.entity.SubCategory;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -11,6 +11,7 @@ import java.util.List;
 
 @Stateless
 public class CategoryEjb {
+
     @PersistenceContext
     private EntityManager em;
 
