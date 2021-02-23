@@ -2,40 +2,17 @@ package org.EE.ejb;
 
 import org.EE.entity.Category;
 import org.EE.entity.SubCategory;
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import javax.ejb.EJB;
 import java.util.List;
 
 import static org.junit.Assert.*;
 
-
-@RunWith(Arquillian.class)
-public class CategoryEjbTest {
-    @Deployment
-    public static JavaArchive createDeployment() {
-        return ShrinkWrap.create(JavaArchive.class)
-                .addPackages(true, "org.EE")
-                .addAsResource("META-INF/persistence.xml");
-    }
+public class CategoryEjbTest extends EjbTestBase {
 
     @EJB
     private CategoryEjb ctgEjb;
-
-    @EJB
-    private ResetEjb resetEjb;
-
-    @Before
-    public void init() {
-        resetEjb.resetDatabase();
-    }
-
 
     @Test
     public void testNoCategory() {
