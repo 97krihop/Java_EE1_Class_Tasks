@@ -25,4 +25,4 @@ COPY target/quizgame.war /opt/jboss/wildfly/standalone/deployments/
 #
 # finally, we can access the web app at:
 #
-# localhost:8080/examples
+# localhost:8080/quizgame
