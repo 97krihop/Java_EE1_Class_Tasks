@@ -102,4 +102,8 @@ public class Quiz {
     public Long getId() {
         return id;
     }
+
+    public int getIndexOfCorrectAnswer() {
+        return correct;
+    }
 }

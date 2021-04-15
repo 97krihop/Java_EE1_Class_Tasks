@@ -8,23 +8,25 @@
 <ui:composition template="/layout.xhtml">
 
     <ui:define name="title">
-        result
+        Result
     </ui:define>
 
     <ui:define name="content">
 
         <c:choose>
             <c:when test="#{!empty param['victory']}">
-                <h2>you won!!</h2>
+                <h2 id="wonId">you won!!</h2>
             </c:when>
             <c:otherwise>
-                <h2>you lost!</h2>
+                <h2 id="lostId">you lost!</h2>
             </c:otherwise>
         </c:choose>
 
         <h:form>
             <h:commandButton value="new match" action="#{matchController.newMatch}" Class="gameBtn"/>
-        </h:form><a href="/quizgame" class="btn">Home</a>
+        </h:form>
+
+        <a href="/quizgame" class="btn">Home</a>
     </ui:define>
 </ui:composition>
 

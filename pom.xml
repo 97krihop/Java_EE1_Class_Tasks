@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.kristoffer</groupId>
     <artifactId>spring-parent</artifactId>
     <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.0.1-SNAPSHOT</version>
     <modules>
         <module>quizGame</module>
+        <module>misc</module>
     </modules>
 
     <properties>
@@ -31,6 +32,7 @@
         <version.restassured>4.2.0</version.restassured>
         <version.surefire-failsafe>3.0.0-M4</version.surefire-failsafe>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -40,6 +42,13 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.tsdes.misc</groupId>
+                <artifactId>test-utils</artifactId>
+                <version>${project.version}</version>
+                <scope>test</scope>
+            </dependency>
+
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-parent</artifactId>
@@ -82,7 +91,74 @@
                 <version>${version.junit}</version>
                 <scope>test</scope>
             </dependency>
-
+            <dependency>
+                <!-- used to control a browser for system testing -->
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-java</artifactId>
+                <version>${version.selenium}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <!-- used to control a browser for system testing -->
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-api</artifactId>
+                <version>${version.selenium}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <!-- used to control a browser for system testing -->
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-chrome-driver</artifactId>
+                <version>${version.selenium}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <!-- used to control a browser for system testing -->
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-remote-driver</artifactId>
+                <version>${version.selenium}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <!-- used to control a browser for system testing -->
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-support</artifactId>
+                <version>${version.selenium}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <!-- for code coverage -->
+                <groupId>org.jacoco</groupId>
+                <artifactId>org.jacoco.core</artifactId>
+                <version>${version.jacoco}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <!-- To use Docker from tests -->
+                <groupId>org.testcontainers</groupId>
+                <artifactId>testcontainers</artifactId>
+                <version>${version.testcontainers}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <!-- To support JUnit 5  -->
+                <groupId>org.testcontainers</groupId>
+                <artifactId>junit-jupiter</artifactId>
+                <version>${version.testcontainers}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.testcontainers</groupId>
+                <artifactId>selenium</artifactId>
+                <version>${version.testcontainers}</version>
+                <scope>test</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.seleniumhq.selenium</groupId>
+                        <artifactId>selenium-remote-driver</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
             <dependency>
                 <groupId>javax.enterprise</groupId>
                 <artifactId>cdi-api</artifactId>
@@ -104,7 +180,91 @@
                 <artifactId>jsf-spring-boot-starter</artifactId>
                 <version>3.2.3</version>
             </dependency>
-
         </dependencies>
     </dependencyManagement>
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.8.1</version>
+                    <inherited>true</inherited>
+                    <configuration>
+                        <release>${version.java}</release>
+                    </configuration>
+                </plugin>
+
+                <!-- Built-in plugin used to execute unit tests -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${version.surefire-failsafe}</version>
+                    <configuration>
+                        <forkCount>1</forkCount>
+                        <redirectTestOutputToFile>true</redirectTestOutputToFile>
+                        <rerunFailingTestsCount>3</rerunFailingTestsCount>
+                        <argLine>-Xms512m -Xmx2048m</argLine>
+                    </configuration>
+                </plugin>
+
+                <!-- this is needed to run integration tests -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>${version.surefire-failsafe}</version>
+                    <configuration>
+                        <forkCount>1</forkCount>
+                        <redirectTestOutputToFile>true</redirectTestOutputToFile>
+                        <rerunFailingTestsCount>3</rerunFailingTestsCount>
+                        <argLine>-Xms512m -Xmx4096m</argLine>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>integration-test</goal>
+                                <goal>verify</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>${version.jacoco}</version>
+                    <executions>
+                        <execution>
+                            <id>default-prepare-agent</id>
+                            <phase>initialize</phase>
+                            <goals>
+                                <goal>prepare-agent</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>default-report</id>
+                            <phase>prepare-package</phase>
+                            <goals>
+                                <goal>report</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>default-prepare-agent-integration</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>prepare-agent-integration</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>default-report-integration</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>report-integration</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 </project>
